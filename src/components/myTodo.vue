@@ -7,18 +7,39 @@
 
       <div id="title-bar">
         <div>{{head}}</div>
-         <a-button @click="pushThing" type="primary">添加</a-button>
+         <a-button @click="showModel" type="primary">添加</a-button>
+            <a-modal
+        v-model:visible="visible"
+       title="添加备忘事项"
+      :confirm-loading="isconfirm"
+      @ok="pushThing"
+    >
+              <a-input v-model:value="input_content.title" placeholder="title" />
+
+                  <a-textarea
+                v-model:value="input_content.msg"
+                placeholder="input your message here"
+                :auto-size="{ minRows: 5, maxRows: 5 }"
+                />
+    </a-modal>
       </div>
 
       <div id="container">
 
-        <div class="main" id="sidebar" >
-          <todo-item v-for="item in ds "  :title="item.title" :date="item.date" :msg="item.msg" ></todo-item>
-        </div>
+          <a-list class="main" id="sidebar">
+            <a-list-item :id="k" @click="showContent($event)" class="item" v-for="(item,k) in ds " >
+              <todo-item    :title="item.title" :date="item.date" :msg="item.msg" ></todo-item>
+            </a-list-item>
+          </a-list>
 
         <div class="main" id="content">
-            {{ds}}
+          <a-card id="con" :title="show_content.title">
+            <p>
+              {{show_content.msg}}
+            </p>
 
+          </a-card>
+          <p style="height: 20px; display: inline-block;position: relative;bottom: 20px">{{show_content.date}}</p>
         </div>
 
 
@@ -42,41 +63,52 @@ export default {
   data(){
     return {
       head:"TODOS!!!!",
+      visible:false,
+      isconfirm:false,
+      show_content: {
+        title:"todos",
+        msg:"欢迎使用todos",
+        date:"12：30",
+      },
+      input_content: {
+        title:"",
+        msg:"",
+      },
       ds:[
-        {
-          title:"thing ",
-          msg:"jin tian chi le ni ma bi ",
-          date: "12:30"
-        }
       ]
     }
   },
-  // created() {
-  //   for(let i=0;i<10;i++){
-  //     this.ds.push(
-  //         {
-  //           title:"thing "+i,
-  //           msg:"jin tian chi le ni ma bi ",
-  //           date: new Date().toLocaleString()
-  //         },
-  //     )
-  //   }
-  //
-  // },
   computed:{
     getNow(){
       return new Date().toLocaleString()
     }
   },
   methods:{
+    showModel(){
+      this.visible=true
+    },
+    showContent(event){
+      let i = event.currentTarget.id
+      // console.log(event.currentTarget.id)
+      console.log(i)
+      this.show_content.title = this.ds[i].title
+      this.show_content.msg = this.ds[i].msg
+      this.show_content.date = this.ds[i].date
+    }
+  ,
     pushThing(){
+      this.isconfirm=true;
       this.ds.push(
           {
-            title:"thing ",
-            msg:"jin tian chi le ni ma bi ",
+            title:this.input_content.title,
+            msg:this.input_content.msg,
             date: new Date().toLocaleString()
           },
       )
+      this.input_content.title=""
+      this.input_content.msg=""
+      this.visible=false;
+      this.isconfirm=false;
     }
   }
 }
@@ -133,7 +165,8 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /*overflow: ;*/
+  overflow-y: auto;
   justify-content: flex-start;
   top: 10px;
   left: 10px;
@@ -157,7 +190,12 @@ export default {
   border-radius: 15px;
   width: 73%;
   height: 520px;
+  text-align: left;
   background: antiquewhite;
+}
+#con{
+  height: 100%;
+
 }
 
 .root{
@@ -172,6 +210,10 @@ justify-content: center;
   -webkit-backdrop-filter: blur(64px);
   backdrop-filter: blur(64px);
   z-index: 2;
+}
+
+.item{
+  /*background: blue;*/
 }
 
 

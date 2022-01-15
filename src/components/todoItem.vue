@@ -35,7 +35,7 @@ export default {
   background: antiquewhite;
   flex-flow: column;
   /*padding-top: 15px;*/
-  margin: 5px auto;
+  /*margin: 5px auto;*/
   width: 100%;
   height: 50px;
   max-width: 220px;
