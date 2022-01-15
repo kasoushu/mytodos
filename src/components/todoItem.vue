@@ -34,8 +34,9 @@ export default {
   display: flex;
   background: antiquewhite;
   flex-flow: column;
-  padding-top: 5px;
-  width: 20%;
+  /*padding-top: 15px;*/
+  margin: 5px auto;
+  width: 100%;
   height: 50px;
   max-width: 220px;
   border: aqua solid ;

@@ -6,7 +6,8 @@
     <div class="root">
 
       <div id="title-bar">
-        {{head}}
+        <div>{{head}}</div>
+         <a-button @click="pushThing" type="primary">添加</a-button>
       </div>
 
       <div id="container">
@@ -16,7 +17,7 @@
         </div>
 
         <div class="main" id="content">
-
+            {{ds}}
 
         </div>
 
@@ -32,6 +33,7 @@
 <script>
 import todoItem from "@/components/todoItem";
 
+
 export default {
   name: "myTodo",
   components:{
@@ -40,24 +42,41 @@ export default {
   data(){
     return {
       head:"TODOS!!!!",
-      ds:[]
+      ds:[
+        {
+          title:"thing ",
+          msg:"jin tian chi le ni ma bi ",
+          date: "12:30"
+        }
+      ]
     }
   },
-  created() {
-    for(let i=0;i<10;i++){
+  // created() {
+  //   for(let i=0;i<10;i++){
+  //     this.ds.push(
+  //         {
+  //           title:"thing "+i,
+  //           msg:"jin tian chi le ni ma bi ",
+  //           date: new Date().toLocaleString()
+  //         },
+  //     )
+  //   }
+  //
+  // },
+  computed:{
+    getNow(){
+      return new Date().toLocaleString()
+    }
+  },
+  methods:{
+    pushThing(){
       this.ds.push(
           {
-            title:"thing "+i,
+            title:"thing ",
             msg:"jin tian chi le ni ma bi ",
             date: new Date().toLocaleString()
           },
       )
-    }
-
-  },
-  computed:{
-    getNow(){
-      return new Date().toLocaleString()
     }
   }
 }
@@ -76,15 +95,28 @@ export default {
 }
 #title-bar{
   /*padding-top:40px;*/
-  position: relative;
-  top: 35px;
-  display: block;
+  position: fixed;
+  top: 5px;
+  display: flex;
+  justify-content: center;
+  height: 35px;
   width: 100%;
   background: #2c3e50;
   color:  white;
   z-index: 3;
+}
+#title-bar div{
   text-align: center;
 }
+#title-bar button{
+  position: relative;
+  /*display: block;*/
+  left: 430px;
+  border: antiquewhite solid;
+  border-radius: 5px;
+  /*background: black;*/
+}
+
 #rrr{
   width: 100%;
   position: fixed;
@@ -97,22 +129,34 @@ export default {
 }
 #sidebar{
   margin-top: 25px;
+  padding: 8px;
   position: relative;
-  top: 25px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: flex-start;
+  top: 10px;
   left: 10px;
-  /*width: 100%;*/
+  width: 20%;
+  border: aqua solid;
+  border-radius: 5px;
+  height: 520px;
+  /*background: #2c3e50;*/
   flex-shrink: 0;
 }
 #container{
-  /*display: flex;*/
-  /*flex-direction: row;*/
+  display: flex;
+  flex-direction: row;
 }
 
 #content{
   position: relative;
-  top: 35px;
-  width: 80%;
-  height: 300px;
+  top: 8.5%;
+  left: 35px;
+  border: aqua solid;
+  border-radius: 15px;
+  width: 73%;
+  height: 520px;
   background: antiquewhite;
 }
 
@@ -120,7 +164,7 @@ export default {
   margin: 5% auto auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+justify-content: center;
   opacity: 0.8;
   width: 1000px;
   height: 600px;
